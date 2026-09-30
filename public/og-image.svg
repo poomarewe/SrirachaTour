@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Who want to tour? Sriracha Tour!</title>
+  <desc id="desc">A clean blue and white Sriracha Tour travel booking share card.</desc>
+  <rect width="1200" height="630" fill="#f6f8fa"/>
+  <rect x="34" y="34" width="1132" height="562" rx="28" fill="#ffffff" stroke="#d0d7de" stroke-width="2"/>
+  <path d="M35 250h1130" stroke="#e7edf2" stroke-width="2"/>
+  <circle cx="1010" cy="120" r="126" fill="#e8f1f6"/>
+  <circle cx="1080" cy="90" r="8" fill="#2b5a74" opacity=".35"/>
+  <circle cx="945" cy="74" r="5" fill="#2b5a74" opacity=".24"/>
+  <g transform="translate(96 92)" fill="none" stroke="#2b5a74" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="0" y="0" width="104" height="72" rx="14" fill="#f6f8fa"/>
+    <path d="M14 15h76v29H14zM14 53h76M25 72v10m54-10v10"/>
+    <circle cx="27" cy="56" r="3" fill="#2b5a74" stroke="none"/>
+    <circle cx="77" cy="56" r="3" fill="#2b5a74" stroke="none"/>
+    <path d="M20 29h19m12 0h19m12 0h4" stroke-width="5"/>
+  </g>
+  <text x="96" y="322" fill="#2b5a74" font-family="Arial, sans-serif" font-size="32" font-weight="700" letter-spacing="2">SRIRACHA TOUR</text>
+  <text x="96" y="402" fill="#57606a" font-family="Arial, sans-serif" font-size="38" font-weight="600">Who want to tour?</text>
+  <text x="96" y="492" fill="#2b5a74" font-family="Arial, sans-serif" font-size="76" font-weight="700">Sriracha <tspan fill="#17394c">Tour!</tspan></text>
+  <text x="100" y="548" fill="#656d76" font-family="Arial, sans-serif" font-size="25" font-weight="400">Easy trips. Clear choices. Your next journey starts here.</text>
+  <g transform="translate(858 400)" fill="none" stroke="#2b5a74" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 44h176" stroke-dasharray="9 12" opacity=".48"/>
+    <circle cx="8" cy="44" r="14" fill="#fff"/>
+    <path d="M178 25c-11 0-20 9-20 20 0 15 20 34 20 34s20-19 20-34c0-11-9-20-20-20z" fill="#2b5a74"/>
+    <circle cx="178" cy="45" r="6" fill="#fff" stroke="none"/>
+  </g>
+</svg>
