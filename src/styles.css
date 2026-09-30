@@ -1,5 +1,5 @@
 :root {
-  font-family: 'Prompt', Arial, sans-serif;
+  font-family: 'DM Sans', Arial, sans-serif;
   color: #24292f;
   background: #ffffff;
   font-synthesis: none;
@@ -95,6 +95,7 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px s
 .choose-trip { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 8px 10px; font-size: 10px; font-weight: 600; white-space: nowrap; }
 .empty-results { padding: 32px 18px; border: 1px solid var(--border); border-radius: 6px; background: var(--subtle); color: var(--muted); text-align: center; font-size: 12px; }
 .back-search { display: inline-flex; align-items: center; gap: 3px; margin-top: 7px; padding: 6px 8px; font-size: 10px; font-weight: 600; }
+.language-toggle { position: fixed; z-index: 3; top: 16px; right: max(20px, calc((100vw - 1160px) / 2)); display: inline-flex; min-width: 42px; height: 32px; align-items: center; justify-content: center; padding: 0 9px; border: 1px solid var(--brand); border-radius: 4px; background: var(--brand); color: #fff; font-size: 11px; font-weight: 700; text-decoration: none; }
 
 .route-results-enter-active, .route-results-leave-active { transition: opacity 350ms ease, transform 450ms cubic-bezier(.22,1,.36,1); }
 .route-results-enter-from, .route-results-leave-to { opacity: 0; transform: translateY(14px); }
@@ -109,6 +110,35 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px s
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-delay: 0ms !important; }
   .brand-title-visible .split-char { opacity: 1; transform: none; }
+}
+:lang(th) { font-family: 'Niramit', sans-serif; }
+@media (min-width: 801px) {
+  .route-search label { font-size: 13px; }
+  .route-search select, .route-search input { font-size: 14px; }
+  .search-button { font-size: 13px; }
+  .results-mode .brand-title { font-size: 26px; }
+  .overview-label { font-size: 11px; }
+  .overview-route { font-size: 15px; }
+  .overview-meta { font-size: 11px; }
+  .share-button { font-size: 12px; }
+  .filter-head { font-size: 14px; }
+  .filter-head button { font-size: 11px; }
+  .filter-group>b { font-size: 12px; }
+  .filter-group label { font-size: 11px; }
+  .filter-note { font-size: 11px; }
+  .date-weekday { font-size: 10px; }
+  .date-number { font-size: 13px; }
+  .today-tag { font-size: 8px; }
+  .results-kicker { font-size: 10px; }
+  .results-heading h2 { font-size: 19px; }
+  .result-count { font-size: 11px; }
+  .operator-name b, .departure-time b { font-size: 14px; }
+  .operator-name span, .departure-time span, .trip-fare span { font-size: 11px; }
+  .departure-time b, .trip-fare b { font-size: 17px; }
+  .trip-duration small { font-size: 10px; }
+  .choose-trip, .back-search { font-size: 11px; }
+  .empty-results { font-size: 13px; }
+  .language-toggle { font-size: 12px; }
 }
 @media (max-width: 800px) {
   .results-mode { padding: 15px; }
@@ -128,6 +158,7 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px s
 }
 @media (max-width: 560px) {
   .color-bends-page { padding: 16px; }
+  .language-toggle { top: 10px; right: 10px; }
   .landing-content { gap: 26px; }
   .route-search, .results-mode .route-search { grid-template-columns: 1fr 30px 1fr; padding: 12px; }
   .travel-date, .results-mode .travel-date { grid-column: 1/3; }
