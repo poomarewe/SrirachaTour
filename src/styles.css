@@ -19,7 +19,7 @@ button { border: 1px solid var(--brand); border-radius: 4px; background: var(--b
 button:hover { background: var(--brand); border-color: var(--brand); }
 button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid #2b5a7480; outline-offset: 2px; }
 
-.color-bends-page { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; overflow: auto; padding: 24px; background: #fff; }
+.color-bends-page { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; display: flex; flex-direction: column; align-items: center; overflow: auto; padding: 24px; background: #fff; }
 .landing-content { display: flex; flex-direction: column; align-items: center; gap: clamp(28px, 5vh, 52px); width: min(100%, 920px); margin: auto 0; transition: margin 650ms cubic-bezier(.22,1,.36,1), gap 650ms cubic-bezier(.22,1,.36,1); }
 .brand-title { margin: 0; color: var(--brand); font-size: clamp(2.5rem, 7vw, 6.5rem); font-weight: 700; line-height: 1; letter-spacing: .06em; white-space: nowrap; user-select: none; -webkit-user-select: none; pointer-events: none; transition: font-size 650ms cubic-bezier(.22,1,.36,1); }
 .split-char { display: inline-block; opacity: 0; transform: translateY(40px); }
@@ -117,13 +117,14 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px s
   .filter-head { grid-column: 1/-1; }
   .filter-group { padding: 5px 0; border-bottom: 0; }
   .filter-note { display: none; }
-  .departure-card { grid-template-columns: 34px 1fr 1fr auto; gap: 10px; height: 150px; min-height: 150px; }
-  .operator-name { grid-column: 2/5; grid-row: 1; }
-  .departure-time:nth-of-type(3) { grid-column: 1/3; grid-row: 2; }
+  .departure-card { position: relative; grid-template-columns: minmax(0,1fr) minmax(0,1fr); grid-template-rows: 36px 1fr 28px; gap: 8px 14px; height: 148px; min-height: 148px; padding: 12px; }
+  .operator-mark { position: absolute; top: 12px; left: 12px; width: 32px; height: 32px; }
+  .operator-name { grid-column: 1/-1; grid-row: 1; align-self: center; padding-left: 42px; }
+  .departure-time:nth-of-type(3) { grid-column: 1; grid-row: 2; }
   .trip-duration { display: none; }
-  .departure-time:nth-of-type(5) { grid-column: 3/5; grid-row: 2; }
-  .trip-fare { grid-column: 1/3; grid-row: 3; }
-  .choose-trip { grid-column: 4; grid-row: 3; }
+  .departure-time:nth-of-type(5) { grid-column: 2; grid-row: 2; }
+  .trip-fare { grid-column: 1; grid-row: 3; }
+  .choose-trip { grid-column: 2; grid-row: 3; justify-self: end; min-width: 102px; }
 }
 @media (max-width: 560px) {
   .color-bends-page { padding: 16px; }
@@ -144,10 +145,11 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px s
   .date-tabs .date-items button { height: 54px; align-items: center; padding: 4px 2px; }
   .date-number { font-size: 10px; }
   .date-weekday { font-size: 8px; }
-  .departure-card { grid-template-columns: 30px 1fr 1fr; height: 142px; min-height: 142px; padding: 12px 10px; }
-  .operator-name { grid-column: 2/4; }
-  .departure-time:nth-of-type(3) { grid-column: 1/2; }
-  .departure-time:nth-of-type(5) { grid-column: 2/4; }
-  .trip-fare { grid-column: 1/2; }
-  .choose-trip { grid-column: 3; }
+  .departure-card { height: 148px; min-height: 148px; padding: 12px; gap: 8px 10px; }
+  .operator-mark { left: 12px; }
+  .operator-name { grid-column: 1/-1; padding-left: 42px; }
+  .departure-time:nth-of-type(3) { grid-column: 1; grid-row: 2; }
+  .departure-time:nth-of-type(5) { grid-column: 2; grid-row: 2; }
+  .trip-fare { grid-column: 1; grid-row: 3; }
+  .choose-trip { grid-column: 2; grid-row: 3; min-width: 96px; }
 }
