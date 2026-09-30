@@ -1,0 +1,18 @@
+{
+  "name": "sriracha-tour",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "server": "node server.js",
+    "build": "vite build",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@lucide/vue": "^1.49.0",
+    "@vitejs/plugin-vue": "latest",
+    "express": "latest",
+    "vite": "latest",
+    "vue": "latest"
+  }
+}
