@@ -6,6 +6,7 @@ import path from 'path';
 import { pathToFileURL } from 'node:url';
 import { createReservation, releaseExpiredBookings as expireReservations } from './server/reservations.js';
 import { updateTrip, updateRoute } from './server/adminEdits.js';
+import { editBooking } from './server/adminBookings.js';
 
 // Load environment variables (.env.local takes priority)
 if (fs.existsSync('.env.local')) {
@@ -717,9 +718,13 @@ app.put('/api/admin/users/:id', async (req, res) => {
 // -----------------------------------------------------------------------------
 app.get('/api/admin/bookings', async (req, res) => {
   try {
+    await releaseExpiredBookings();
     const result = await db.execute(`
       SELECT
         b.id,
+        b.trip_id,
+        b.notes,
+        b.expires_at,
         b.booking_code,
         b.passenger_name,
         b.passenger_phone,
@@ -749,21 +754,15 @@ app.get('/api/admin/bookings', async (req, res) => {
   }
 });
 
-app.put('/api/admin/bookings/:id/status', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { payment_status, booking_status } = req.body;
-    await db.execute({
-      sql: `UPDATE bookings
-            SET payment_status = COALESCE(?, payment_status),
-                booking_status = COALESCE(?, booking_status)
-            WHERE id = ?`,
-      args: [payment_status, booking_status, id],
-    });
-    res.json({ success: true, message: 'Booking status updated.' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+async function saveAdminBooking(req, res) {
+  try { res.json(await editBooking(db, req.params.id, req.body)); }
+  catch (err) { res.status(err.status || 500).json({ error: err.message }); }
+}
+app.put('/api/admin/bookings/:id', saveAdminBooking);
+app.put('/api/admin/bookings/:id/status', saveAdminBooking);
+app.delete('/api/admin/bookings/:id', async (req, res) => {
+  try { res.json(await editBooking(db, req.params.id, null, true)); }
+  catch (err) { res.status(err.status || 500).json({ error: err.message }); }
 });
 
 // -----------------------------------------------------------------------------

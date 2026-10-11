@@ -123,8 +123,12 @@ export default {
     beginEdit(type, item) {
       this.editType = type;
       this.editId = item.id;
-      const fields = type === 'route' ? ['origin_id', 'destination_id', 'base_fare', 'duration_minutes', 'distance_km'] : ['route_id', 'vehicle_id', 'departure_date', 'departure_time', 'arrival_time', 'fare', 'status'];
+      const fields = type === 'booking' ? ['passenger_name', 'passenger_phone', 'passenger_email', 'payment_status', 'booking_status', 'notes'] : type === 'route' ? ['origin_id', 'destination_id', 'base_fare', 'duration_minutes', 'distance_km'] : ['route_id', 'vehicle_id', 'departure_date', 'departure_time', 'arrival_time', 'fare', 'status'];
       this.editDraft = Object.fromEntries(fields.map(key => [key, item[key]]));
+      if (type === 'booking') {
+        this.editDraft.seatText = JSON.parse(item.seat_numbers || '[]').join(', ');
+        this.editDraft.notes = item.notes || '';
+      }
       this.editError = ''; this.editNotice = '';
       if (type === 'route' && (this.editorDataError || !item.origin_id || !item.destination_id || item.duration_minutes == null)) this.editError = this.editorDataError || 'Route details are incomplete. Refresh the page after restarting the website server.';
       this.$nextTick(() => {
@@ -142,12 +146,16 @@ export default {
       this.editSaving = true; this.editError = '';
       try {
         const payload = { ...this.editDraft };
+        if (this.editType === 'booking') {
+          payload.seats = payload.seatText.split(',').map(s => s.trim().toUpperCase()).filter(Boolean);
+          delete payload.seatText;
+        }
         if (this.editType === 'route' && (payload.distance_km === '' || payload.distance_km == null)) payload.distance_km = null;
-        const res = await fetch(`/api/admin/${this.editType === 'route' ? 'routes' : 'trips'}/${encodeURIComponent(this.editId)}`, { method: 'PUT', headers: this.adminHeaders(), body: JSON.stringify(payload) });
+        const res = await fetch(`/api/admin/${this.editType === 'booking' ? 'bookings' : this.editType === 'route' ? 'routes' : 'trips'}/${encodeURIComponent(this.editId)}`, { method: 'PUT', headers: this.adminHeaders(), body: JSON.stringify(payload) });
         const data = await this.safeJson(res, {});
         if (!res.ok) { this.editError = data.error || 'Could not save changes. Please try again.'; return; }
-        await Promise.all([this.loadAdminRoutes(), this.loadAdminTrips()]);
-        this.editNotice = this.editType === 'route' ? 'Route changes saved.' : 'Trip changes saved.';
+        await Promise.all([this.loadAdminRoutes(), this.loadAdminTrips(), this.loadAdminBookings()]);
+        this.editNotice = this.editType === 'booking' ? 'Reservation changes saved.' : this.editType === 'route' ? 'Route changes saved.' : 'Trip changes saved.';
         this.editType = '';
       } catch (err) { this.editError = 'Could not save changes. Check your connection and try again.'; }
       finally { this.editSaving = false; }
@@ -162,6 +170,19 @@ export default {
       } catch (err) {
         console.error('Failed to load bookings:', err);
       }
+    },
+    async removeBooking(booking) {
+      if (this.editSaving || !confirm(`Permanently remove reservation ${booking.booking_code}? This releases its seats and removes it from My trips. This cannot be undone.`)) return;
+      this.editSaving = true;
+      try {
+        const res = await fetch(`/api/admin/bookings/${encodeURIComponent(booking.id)}`, { method: 'DELETE', headers: this.adminHeaders() });
+        const data = await this.safeJson(res, {});
+        if (!res.ok) throw new Error(data.error || 'Could not remove reservation.');
+        this.editType = '';
+        await Promise.all([this.loadAdminBookings(), this.loadAdminTrips()]);
+        this.editNotice = 'Reservation removed. Its seats are available again.';
+      } catch (err) { alert(err.message || 'Could not remove reservation. Please try again.'); }
+      finally { this.editSaving = false; }
     },
     onRouteChange() {
       const r = this.adminRoutes.find(item => item.id === this.newTrip.route_id);
@@ -591,7 +612,7 @@ export default {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="b in adminBookings" :key="b.id">
+                  <template v-for="b in adminBookings" :key="b.id"><tr>
                     <td><b>{{ b.booking_code }}</b><br><small style="color: var(--muted);">{{ b.ticket_number }}</small></td>
                     <td>{{ b.passenger_name }}</td>
                     <td>{{ b.passenger_phone }}</td>
@@ -608,15 +629,30 @@ export default {
                         {{ b.booking_status }}
                       </span>
                     </td>
-                    <td style="display: flex; gap: 6px;">
-                      <button class="btn-sm btn-sm-secondary" type="button" @click="togglePaymentStatus(b)">
-                        {{ b.payment_status === 'paid' ? 'Mark Pending' : 'Mark Paid' }}
-                      </button>
-                      <button v-if="b.booking_status !== 'cancelled'" class="btn-sm btn-sm-danger" type="button" @click="cancelBooking(b)">
-                        Cancel
-                      </button>
+                    <td class="table-actions">
+                      <button class="btn-sm btn-sm-secondary" :disabled="editSaving" type="button" @click="beginEdit('booking', b)"><Pencil :size="12"/> Edit reservation</button>
+                      <button class="btn-sm btn-sm-danger" :disabled="editSaving" type="button" @click="removeBooking(b)"><Trash2 :size="12"/> Remove</button>
                     </td>
                   </tr>
+                  <tr v-if="editType === 'booking' && editId === b.id" class="editor-row"><td colspan="9">
+                    <section ref="editPanel" class="admin-form-panel inline-editor" aria-label="Edit reservation">
+                      <h3>Edit Reservation · {{ b.booking_code }}</h3>
+                      <p class="edit-help">Update contact details, seats or status for this trip. Separate seats with commas, for example 1A, 1B. The total uses the original price per seat. Holds keep their original expiry. Payment statuses are demo records; no money is transferred.</p>
+                      <form @submit.prevent="saveEdit"><fieldset :disabled="editSaving" class="edit-fields">
+                        <div class="admin-form-grid">
+                          <label>Name<input v-model="editDraft.passenger_name" required maxlength="120"/></label>
+                          <label>Phone<input v-model="editDraft.passenger_phone" required maxlength="30"/></label>
+                          <label>Email (optional)<input v-model="editDraft.passenger_email" type="email" maxlength="254"/></label>
+                          <label>Seats<input v-model="editDraft.seatText" required placeholder="1A, 1B"/></label>
+                          <label>Payment status<select v-model="editDraft.payment_status"><option v-for="status in ['pending_payment','paid','refunded','cancelled']" :key="status">{{ status }}</option></select></label>
+                          <label>Reservation status<select v-model="editDraft.booking_status"><option v-for="status in ['confirmed','completed','cancelled']" :key="status">{{ status }}</option></select></label>
+                          <label>Notes<input v-model="editDraft.notes" maxlength="2000"/></label>
+                        </div>
+                        <p v-if="editError" class="edit-error" role="alert">{{ editError }}</p>
+                        <div class="edit-actions"><button class="btn-sm btn-sm-primary" type="submit">{{ editSaving ? 'Saving…' : 'Save changes' }}</button><button class="btn-sm btn-sm-secondary" type="button" @click="editType = ''">Cancel</button></div>
+                      </fieldset></form>
+                    </section>
+                  </td></tr></template>
                   <tr v-if="!adminBookings.length">
                     <td colspan="9" style="text-align: center; color: var(--muted); padding: 24px;">No customer bookings yet.</td>
                   </tr>
