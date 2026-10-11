@@ -597,45 +597,41 @@ export default {
             </div>
 
             <div class="admin-table-wrap">
-              <table class="admin-table bookings-table">
+              <table class="admin-table bookings-table"><colgroup><col style="width:15%"/><col style="width:14%"/><col style="width:17%"/><col style="width:18%"/><col style="width:15%"/><col style="width:7%"/><col style="width:14%"/></colgroup>
                 <thead>
                   <tr>
                     <th class="reservation-actions">Actions</th>
                     <th>Code / Ticket</th>
-                    <th>Passenger</th>
-                    <th>Contact</th>
+                    <th>Customer</th>
                     <th>Trip Details</th>
                     <th>Seats</th>
                     <th>Total</th>
-                    <th>Payment</th>
                     <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <template v-for="b in adminBookings" :key="b.id"><tr>
-                    <td class="reservation-actions"><div class="table-actions">
+                  <template v-for="b in adminBookings" :key="b.id"><tr class="reservation-row">
+                    <td class="reservation-actions" data-label="Actions"><div class="table-actions">
                       <button class="btn-sm btn-sm-secondary" :disabled="editSaving" type="button" aria-label="Edit reservation" @click="beginEdit('booking', b)"><Pencil :size="12"/> Edit</button>
                       <button class="btn-sm btn-sm-danger" :disabled="editSaving" type="button" @click="removeBooking(b)"><Trash2 :size="12"/> Remove</button>
                     </div></td>
-                    <td><b>{{ b.booking_code }}</b><br><small style="color: var(--muted);">{{ b.ticket_number }}</small></td>
-                    <td>{{ b.passenger_name }}</td>
-                    <td>{{ b.passenger_phone }}</td>
-                    <td>{{ b.from_location }} → {{ b.to_location }}<br><small style="color: var(--muted);">{{ b.departure_date }} {{ b.departure_time }}</small></td>
-                    <td class="reservation-seats"><b>{{ b.seats_count }}</b> · {{ JSON.parse(b.seat_numbers || '[]').join(', ') }}</td>
-                    <td><b>฿{{ b.total_amount }}</b></td>
-                    <td>
+                    <td data-label="Code / Ticket"><b>{{ b.booking_code }}</b><br><small style="color: var(--muted);">{{ b.ticket_number }}</small></td>
+                    <td data-label="Customer">{{ b.passenger_name }}<br/><small>{{ b.passenger_phone }}</small></td>
+                    <td data-label="Trip">{{ b.from_location }} → {{ b.to_location }}<br><small style="color: var(--muted);">{{ b.departure_date }} {{ b.departure_time }}</small></td>
+                    <td class="reservation-seats" data-label="Seats"><b>{{ b.seats_count }}</b> · {{ JSON.parse(b.seat_numbers || '[]').join(', ') }}</td>
+                    <td data-label="Total"><b>฿{{ b.total_amount }}</b></td>
+                    <td data-label="Status">
                       <span class="badge" :class="b.payment_status === 'paid' ? 'badge-success' : 'badge-warning'">
                         {{ b.payment_status }}
                       </span>
-                    </td>
-                    <td>
+                      <br/>
                       <span class="badge" :class="b.booking_status === 'confirmed' ? 'badge-success' : 'badge-danger'">
                         {{ b.booking_status }}
                       </span>
                     </td>
 
                   </tr>
-                  <tr v-if="editType === 'booking' && editId === b.id" class="editor-row"><td colspan="9">
+                  <tr v-if="editType === 'booking' && editId === b.id" class="editor-row"><td colspan="7">
                     <section ref="editPanel" class="admin-form-panel inline-editor" aria-label="Edit reservation">
                       <h3>Edit Reservation · {{ b.booking_code }}</h3>
                       <p class="edit-help">Update contact details, seats or status for this trip. Separate seats with commas, for example 1A, 1B. The total uses the original price per seat. Holds keep their original expiry. Payment statuses are demo records; no money is transferred.</p>
@@ -655,7 +651,7 @@ export default {
                     </section>
                   </td></tr></template>
                   <tr v-if="!adminBookings.length">
-                    <td colspan="9" style="text-align: center; color: var(--muted); padding: 24px;">No customer bookings yet.</td>
+                    <td colspan="7" style="text-align: center; color: var(--muted); padding: 24px;">No customer bookings yet.</td>
                   </tr>
                 </tbody>
               </table>
@@ -666,12 +662,25 @@ export default {
 
 </div></template>
 <style scoped>
-.admin-table.bookings-table{white-space:normal;min-width:900px}
-.bookings-table td{overflow-wrap:anywhere}
-.bookings-table .reservation-actions{position:sticky;left:0;z-index:1;background:white;min-width:130px;width:130px;box-shadow:2px 0 0 var(--border)}
-.bookings-table th.reservation-actions{background:var(--subtle)}
-.bookings-table .reservation-seats{max-width:160px;min-width:90px}
-.bookings-table .reservation-actions .table-actions{flex-direction:column;align-items:flex-start}
+.admin-table.bookings-table{white-space:normal;min-width:0;table-layout:fixed;font-size:11px}
+.admin-table.bookings-table th,.admin-table.bookings-table td{padding:8px 6px;overflow-wrap:anywhere;line-height:1.4}
+.bookings-table .reservation-actions{position:static;background:transparent;min-width:0;width:auto;box-shadow:none}
+.bookings-table .reservation-actions .table-actions{gap:4px;flex-wrap:wrap}
+.bookings-table .reservation-actions .btn-sm{min-height:30px;padding:4px 6px;font-size:10px}
+.bookings-table .badge{white-space:normal;max-width:100%;padding:2px 4px;margin:2px 0;overflow-wrap:anywhere}
+.bookings-table .reservation-seats{min-width:0;max-width:none}
+@media(max-width:900px){
+  .admin-table.bookings-table{display:block;width:100%}
+  .bookings-table colgroup,.bookings-table thead{display:none}
+  .bookings-table tbody,.bookings-table .editor-row{display:block;width:100%}
+  .bookings-table .reservation-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px 12px;padding:12px 0;border-bottom:1px solid var(--border)}
+  .admin-table.bookings-table .reservation-row td{display:block;padding:0;border:0;min-width:0}
+  .bookings-table .reservation-row td::before{content:attr(data-label);display:block;color:var(--muted);font-size:10px;margin-bottom:2px}
+  .bookings-table .reservation-row .reservation-actions{grid-column:1/-1;grid-row:1;justify-self:end}
+  .bookings-table .reservation-actions::before{display:none!important}
+  .bookings-table .editor-row > td{display:block;width:100%;box-sizing:border-box}
+  .bookings-table .inline-editor{padding:12px}
+}
 .editor-row > td{padding:0!important;white-space:normal}
 .inline-editor{margin:0;padding:20px;border-radius:0}
 .edit-fields{border:0;margin:0;padding:0;min-width:0}
