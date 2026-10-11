@@ -1,35 +1,57 @@
 <!doctype html>
-<html lang="en">
+<html lang="th">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Who want to tour? Sriracha Tour! Book minivan and bus trips from Sriracha, compare departure times, and plan your next trip." />
+    <meta name="description" content="Who want to tour? Sriracha Express! Book minivan and bus trips from Sriracha, compare departure times, and plan your next trip." />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#2b5a74" />
+    <meta name="theme-color" content="#f4f9fb" />
+    <link rel="stylesheet" href="/loading.css" />
+    <link rel="preload" as="image" href="/express-bus-navy.svg" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href="https://srctour.harn.fun/" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Sriracha Tour" />
+    <meta property="og:site_name" content="Sriracha Express" />
     <meta property="og:url" content="https://srctour.harn.fun/" />
-    <meta property="og:title" content="Who want to tour? Sriracha Tour!" />
+    <meta property="og:title" content="Who want to tour? Sriracha Express!" />
     <meta property="og:description" content="Book minivan and bus trips from Sriracha, compare departure times, and plan your next trip." />
     <meta property="og:image" content="https://srctour.harn.fun/og-image-v2.png" />
     <meta property="og:image:secure_url" content="https://srctour.harn.fun/og-image-v2.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Who want to tour? Sriracha Tour! Book your next ride." />
+    <meta property="og:image:alt" content="Who want to tour? Sriracha Express! Book your next ride." />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Who want to tour? Sriracha Tour!" />
+    <meta name="twitter:title" content="Who want to tour? Sriracha Express!" />
     <meta name="twitter:description" content="Book minivan and bus trips from Sriracha, compare departure times, and plan your next trip." />
     <meta name="twitter:image" content="https://srctour.harn.fun/og-image-v2.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Niramit:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <title>Sriracha Tour | Bus &amp; Minivan Booking</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <title>Sriracha Express | Bus &amp; Minivan Booking</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div class="journey-loader" role="status" aria-live="polite">
+        <span class="journey-loader__accessible">กำลังเตรียมทริป · Loading</span>
+        <div class="journey-loader__layer journey-loader__layer--last" aria-hidden="true"></div>
+        <div class="journey-loader__layer journey-loader__layer--middle" aria-hidden="true"></div>
+        <div class="journey-loader__layer journey-loader__layer--first" aria-hidden="true"></div>
+        <div class="journey-loader__scene" aria-hidden="true">
+          <div class="journey-loader__sun"></div>
+          <div class="journey-loader__cloud"></div>
+          <div class="journey-loader__cloud journey-loader__cloud--small"></div>
+          <svg class="journey-loader__hills" viewBox="0 0 1440 420" preserveAspectRatio="none" fill="none">
+            <path d="M-100 296C70 47 253 91 459 257c159-205 341-218 557-64 209-186 360-164 525 44v183H-100Z" fill="#c1d7bd" />
+            <path d="M-100 377c210-199 375-173 573-45 236-164 430-178 649-59 173-108 302-99 419-11v158H-100Z" fill="#99ba9b" />
+          </svg>
+          <div class="journey-loader__ground"></div>
+          <div class="journey-loader__road"></div>
+        </div>
+        <div class="journey-loader__bus" aria-hidden="true"><img src="/express-bus-navy.svg" width="205" height="140" alt="" /></div>
+      </div>
+      <noscript><p style="position:fixed;bottom:24px;left:24px;right:24px;z-index:1001;text-align:center;color:#002147">กรุณาเปิด JavaScript เพื่อจองเที่ยวรถ · Please enable JavaScript to book your trip.</p></noscript>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

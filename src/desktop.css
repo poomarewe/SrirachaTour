@@ -1,0 +1,416 @@
+/* ========================================================
+   DESKTOP & LARGE SCREEN RESPONSIVE STYLES
+   ======================================================== */
+@media screen and (min-width: 1001px) {
+  .site-shell {
+    max-width: 1440px;
+    padding: 0 40px;
+  }
+
+  .site-shell .site-header {
+    height: 80px;
+  }
+
+  .site-shell .brand-logo {
+    width: 180px;
+  }
+
+  .site-shell .site-footer {
+    padding: 24px 0;
+  }
+
+  .site-shell .content {
+    min-height: 0;
+    padding-top: 16px;
+    padding-bottom: 40px;
+  }
+
+  .site-shell .page-heading {
+    margin-bottom: 20px;
+  }
+
+  .site-shell .page-heading h1 {
+    font-size: 28px;
+    letter-spacing: -0.8px;
+  }
+
+  .site-shell .page-heading p {
+    margin-top: 6px;
+    font-size: 14px;
+  }
+
+  /* Choose / Search Screen 2-Column Grid */
+  .choose-workspace {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+  }
+
+  .search-panel {
+    position: sticky;
+    top: 20px;
+    min-width: 0;
+  }
+
+  .search-card {
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .route-inputs {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .swap-wrapper {
+    margin: -4px 0;
+  }
+
+  .date-input {
+    padding-top: 14px;
+  }
+
+  .date-input-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .quick-dates button {
+    flex: 1;
+  }
+
+  .departures {
+    min-width: 0;
+  }
+
+  .results-top {
+    min-height: 48px;
+    margin-bottom: 16px;
+  }
+
+  .results-heading-group h2 {
+    font-size: 20px;
+  }
+
+  /* Real-World Timetable Row (Horizontal Transit Layout) */
+  .trip-list, .trip-skeletons {
+    gap: 12px;
+  }
+
+  .trip-card {
+    padding: 16px 24px 12px;
+  }
+
+  .trip-card-content {
+    display: grid;
+    grid-template-columns: minmax(360px, 1.8fr) auto minmax(190px, auto);
+    gap: 24px;
+    align-items: center;
+  }
+
+  .trip-schedule {
+    gap: 24px;
+  }
+
+  .schedule-time {
+    font-size: 26px;
+  }
+
+  .city-name {
+    font-size: 15px;
+  }
+
+  .schedule-transit {
+    min-width: 120px;
+  }
+
+  .trip-status {
+    justify-content: center;
+  }
+
+  .trip-action-group {
+    justify-content: flex-end;
+    gap: 20px;
+  }
+
+  .fare-amount {
+    font-size: 24px;
+  }
+
+  .trip-card button.choose-trip {
+    min-height: 42px;
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+
+  .station-details {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .skeleton {
+    height: 110px;
+  }
+
+  /* Checkout & Payment Navigation */
+  .checkout-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 16px;
+  }
+
+  .checkout-nav .back-button, .checkout-nav .progress-steps {
+    margin: 0;
+  }
+
+  .checkout-page, .payment-page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-content: start;
+    column-gap: 24px;
+  }
+
+  .checkout-page > .page-heading, .payment-page > .page-heading {
+    grid-column: 1;
+    grid-row: 1;
+    margin-bottom: 20px;
+  }
+
+  .checkout-nav {
+    grid-column: 2;
+    grid-row: 1;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: 8px;
+    margin: 0 0 20px;
+  }
+
+  .checkout-page > .checkout-layout,
+  .payment-page > .checkout-layout,
+  .payment-page > .loading-state,
+  .payment-page > .empty-state {
+    grid-column: 1 / -1;
+  }
+
+  .site-shell .checkout-page, .site-shell .payment-page {
+    padding-bottom: 100px;
+  }
+
+  .checkout-layout {
+    gap: 24px;
+  }
+
+  .seat-card, .contact-card, .trip-summary, .payment-card {
+    padding: 24px;
+  }
+
+  /* Payment Screen Desktop Layout */
+  .payment-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+  }
+
+  .payment-card .hold-banner,
+  .payment-card .expired-content,
+  .payment-card .inline-notice {
+    grid-column: 1 / -1;
+  }
+
+  .payment-tabs {
+    grid-column: 1;
+    grid-template-columns: 1fr;
+    margin: 0;
+    gap: 10px;
+  }
+
+  .payment-tabs button {
+    min-height: 48px;
+  }
+
+  .demo-payment-visual {
+    grid-column: 2;
+    grid-row: 2 / span 2;
+    padding: 0;
+  }
+
+  .demo-payment-visual > strong {
+    font-size: 30px;
+  }
+
+  .demo-notice {
+    grid-column: 1;
+  }
+
+  /* Sign In Screen Desktop Layout */
+  .sign-in-page {
+    gap: 64px;
+    padding: 36px 0;
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    align-self: center;
+  }
+
+  .welcome-panel h1 {
+    font-size: 42px;
+  }
+
+  .welcome-panel .travel-art {
+    max-height: 220px;
+    object-fit: contain;
+  }
+
+  .sign-in-card {
+    padding: 36px;
+  }
+
+  /* Ticket / Boarding Pass Desktop Layout */
+  .ticket-page {
+    max-width: 1120px;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-rows: auto auto auto 1fr;
+    gap: 0 48px;
+    align-items: start;
+  }
+
+  .ticket-page > .loading-state, .ticket-page > .empty-state {
+    grid-column: 1 / -1;
+  }
+
+  .ticket-celebration {
+    grid-column: 1;
+    grid-row: 1;
+    margin: 24px 0 0;
+    text-align: left;
+  }
+
+  .ticket-celebration .success-circle {
+    margin-bottom: 12px;
+  }
+
+  .ticket-actions {
+    grid-column: 1;
+    grid-row: 2;
+    justify-content: flex-start;
+    margin-top: 24px;
+  }
+
+  .print-hint {
+    grid-column: 1;
+    grid-row: 3;
+    text-align: left;
+  }
+
+  .another-ride {
+    grid-column: 1;
+    grid-row: 4;
+    margin-left: 0;
+  }
+
+  .boarding-pass {
+    grid-column: 2;
+    grid-row: 1 / span 4;
+  }
+
+  /* My Trips Screen Desktop Layout */
+  .my-trips-sections {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 28px;
+    align-items: start;
+  }
+
+  .my-trips-sections > section {
+    min-width: 0;
+  }
+
+  .my-trips-sections .booking-section-title {
+    margin-top: 0;
+  }
+
+  .my-trips-sections .bookings-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .my-trips-sections > section:only-child {
+    grid-column: 1 / -1;
+  }
+
+  .my-trips-sections > section:only-child .bookings-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Medium Desktop Tuning (1001px to 1199px) */
+@media screen and (min-width: 1001px) and (max-width: 1199px) {
+  .choose-workspace {
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .trip-card-content {
+    grid-template-columns: minmax(320px, 1.6fr) auto minmax(170px, auto);
+    gap: 16px;
+  }
+
+  .trip-schedule {
+    gap: 14px;
+  }
+
+  .payment-page .checkout-layout {
+    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr);
+  }
+
+  .payment-card {
+    gap: 14px;
+    padding: 20px;
+  }
+
+  .demo-qr {
+    width: 130px;
+    height: 130px;
+  }
+}
+
+/* Laptop Height Adjustments (< 800px) */
+@media screen and (min-width: 1001px) and (max-height: 800px) {
+  .site-shell .site-header {
+    height: 72px;
+  }
+
+  .site-shell .brand-logo {
+    width: 160px;
+  }
+
+  .site-shell .content {
+    padding-top: 10px;
+  }
+
+  .site-shell .page-heading h1 {
+    font-size: 26px;
+  }
+
+  .search-card {
+    padding: 16px;
+  }
+
+  .checkout-nav .back-button {
+    min-height: 36px;
+    padding: 6px 4px;
+  }
+
+  .checkout-page .section-heading {
+    margin-bottom: 14px;
+  }
+
+  .checkout-page .section-heading h2 {
+    font-size: 17px;
+  }
+}

@@ -27,3 +27,9 @@ temp/
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Local visual checks and database files
+artifacts/
+*.db
+*.db-shm
+*.db-wal

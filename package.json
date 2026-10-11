@@ -3,16 +3,25 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently -n \"API,VITE\" -c \"blue,green\" \"node server.js\" \"vite\"",
+    "dev:client": "vite",
     "server": "node server.js",
     "build": "vite build",
+    "test": "node --test tests/*.test.js",
+    "preview:isolated": "node scripts/preview.mjs",
     "start": "node server.js"
   },
   "dependencies": {
+    "@libsql/client": "^0.18.0",
     "@lucide/vue": "^1.49.0",
     "@vitejs/plugin-vue": "latest",
+    "dotenv": "^18.0.5",
     "express": "latest",
+    "leaflet": "^1.9.4",
     "vite": "latest",
     "vue": "latest"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.5"
   }
 }

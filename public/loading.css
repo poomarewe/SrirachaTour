@@ -1,0 +1,32 @@
+/* First-paint artwork and the Vue reveal share the same viewport coordinates. */
+body:has(.journey-loader){overflow:hidden}
+.journey-loader{--bus-width:clamp(144px,23vw,330px);--bus-height:calc(var(--bus-width)*140/205);--bus-left:clamp(20px,7vw,108px);--bus-rear:calc(var(--bus-width)*11/205);--road-top:calc(60% + var(--bus-height)*.32);--departure-duration:950ms;--layer-delay-step:70ms;position:fixed;inset:0;z-index:1000;overflow:hidden;isolation:isolate;box-sizing:border-box}
+.journey-loader__layer,.journey-loader__scene{position:absolute;inset:0;background:#e1eee3;overflow:hidden;clip-path:polygon(-24vw 0,250vw 0,250vw 100%,-24vw 100%,0 60%)}
+.journey-loader__layer--last{background:#214d43;--layer-delay:calc(var(--layer-delay-step)*3)}
+.journey-loader__layer--middle{background:#bbd4bc;--layer-delay:calc(var(--layer-delay-step)*2)}
+.journey-loader__layer--first{background:#f2d783;--layer-delay:var(--layer-delay-step)}
+.journey-loader__sun{position:absolute;top:17%;right:16%;width:clamp(78px,12vw,172px);aspect-ratio:1;border-radius:50%;background:#f2d783;box-shadow:0 0 0 18px #f2d78318}
+.journey-loader__cloud{position:absolute;top:24%;left:19%;width:clamp(80px,11vw,155px);height:clamp(21px,3vw,42px);border-radius:70px;background:#fffefa;animation:journey-cloud 7s ease-in-out infinite alternate}
+.journey-loader__cloud:before,.journey-loader__cloud:after{content:'';position:absolute;bottom:8%;width:45%;aspect-ratio:1;border-radius:50%;background:inherit;left:14%}
+.journey-loader__cloud:after{width:32%;left:51%}
+.journey-loader__cloud--small{top:12%;left:51%;transform:scale(.65);animation-delay:-3s}
+.journey-loader__hills{position:absolute;top:31%;left:0;width:100%;height:calc(29% + var(--bus-height)*.32);display:block}
+.journey-loader__ground{position:absolute;inset:var(--road-top) 0 0;background:#99ba9b}
+.journey-loader__road{position:absolute;top:var(--road-top);left:0;right:0;height:clamp(96px,17vh,160px);background:#fffefa;border-bottom:10px solid #e6e6d7}
+.journey-loader__road:after{content:'';position:absolute;top:54%;left:0;right:-128px;height:4px;background:repeating-linear-gradient(90deg,#c9c7b5 0 54px,transparent 54px 128px);animation:journey-road 900ms linear infinite}
+.journey-loader__bus{position:absolute;left:var(--bus-left);top:60%;width:var(--bus-width);height:var(--bus-height);margin-top:calc(var(--bus-height)*-.5);z-index:1;will-change:transform}
+.journey-loader__bus:after{content:'';position:absolute;bottom:5%;left:6%;width:88%;height:6%;border-radius:50%;background:#00214718;z-index:-1}
+.journey-loader__bus img{display:block;width:100%;height:100%;animation:journey-idle 1.4s ease-in-out infinite}
+.journey-loader__accessible{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.journey-loader.is-departing{pointer-events:none}
+.is-departing .journey-loader__layer,.is-departing .journey-loader__scene{animation:journey-triangle-reveal var(--departure-duration) cubic-bezier(.45,0,.3,1) var(--layer-delay,0ms) both;will-change:clip-path}
+.is-departing .journey-loader__bus{z-index:3;animation:journey-drive-away var(--departure-duration) cubic-bezier(.45,0,.3,1) both}
+.is-departing .journey-loader__bus img{animation:none;transform:rotate(-1deg)}
+@keyframes journey-triangle-reveal{from{clip-path:polygon(calc(var(--bus-left) + var(--bus-rear) - 24vw) 0,250vw 0,250vw 100%,calc(var(--bus-left) + var(--bus-rear) - 24vw) 100%,calc(var(--bus-left) + var(--bus-rear)) 60%)}to{clip-path:polygon(calc(101vw + var(--bus-rear)) 0,250vw 0,250vw 100%,calc(101vw + var(--bus-rear)) 100%,calc(125vw + var(--bus-rear)) 60%)}}
+@keyframes journey-drive-away{to{transform:translateX(calc(125vw - var(--bus-left)))}}
+@keyframes journey-road{to{transform:translateX(-128px)}}
+@keyframes journey-idle{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-3px) rotate(0deg)}}
+@keyframes journey-cloud{to{translate:-18px 0}}
+@media(max-width:480px){.journey-loader__sun{right:15%;top:22%}.journey-loader__cloud{left:10%;top:32%}.journey-loader__cloud--small{left:48%;top:15%}}
+@media(prefers-reduced-motion:reduce){.journey-loader *,.journey-loader *:after{animation:none!important;transition:none!important}}
+@media print{.journey-loader{display:none!important}}
