@@ -769,6 +769,7 @@ app.put('/api/admin/bookings/:id/status', async (req, res) => {
 // -----------------------------------------------------------------------------
 // SPA Catch-All Route (Ensures /admin, /th, etc. load index.html)
 // -----------------------------------------------------------------------------
+app.use('/api', (req, res) => res.status(404).json({ error: 'API endpoint not found.' }));
 app.use((req, res) => {
   const indexPath = path.resolve('dist/index.html');
   if (fs.existsSync(indexPath)) return res.sendFile(indexPath);
