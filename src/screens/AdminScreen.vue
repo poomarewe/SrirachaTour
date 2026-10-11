@@ -597,9 +597,10 @@ export default {
             </div>
 
             <div class="admin-table-wrap">
-              <table class="admin-table">
+              <table class="admin-table bookings-table">
                 <thead>
                   <tr>
+                    <th class="reservation-actions">Actions</th>
                     <th>Code / Ticket</th>
                     <th>Passenger</th>
                     <th>Contact</th>
@@ -608,16 +609,19 @@ export default {
                     <th>Total</th>
                     <th>Payment</th>
                     <th>Status</th>
-                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <template v-for="b in adminBookings" :key="b.id"><tr>
+                    <td class="reservation-actions"><div class="table-actions">
+                      <button class="btn-sm btn-sm-secondary" :disabled="editSaving" type="button" aria-label="Edit reservation" @click="beginEdit('booking', b)"><Pencil :size="12"/> Edit</button>
+                      <button class="btn-sm btn-sm-danger" :disabled="editSaving" type="button" @click="removeBooking(b)"><Trash2 :size="12"/> Remove</button>
+                    </div></td>
                     <td><b>{{ b.booking_code }}</b><br><small style="color: var(--muted);">{{ b.ticket_number }}</small></td>
                     <td>{{ b.passenger_name }}</td>
                     <td>{{ b.passenger_phone }}</td>
                     <td>{{ b.from_location }} → {{ b.to_location }}<br><small style="color: var(--muted);">{{ b.departure_date }} {{ b.departure_time }}</small></td>
-                    <td><b>{{ b.seats_count }}</b> ({{ b.seat_numbers }})</td>
+                    <td class="reservation-seats"><b>{{ b.seats_count }}</b> · {{ JSON.parse(b.seat_numbers || '[]').join(', ') }}</td>
                     <td><b>฿{{ b.total_amount }}</b></td>
                     <td>
                       <span class="badge" :class="b.payment_status === 'paid' ? 'badge-success' : 'badge-warning'">
@@ -629,10 +633,7 @@ export default {
                         {{ b.booking_status }}
                       </span>
                     </td>
-                    <td class="table-actions">
-                      <button class="btn-sm btn-sm-secondary" :disabled="editSaving" type="button" @click="beginEdit('booking', b)"><Pencil :size="12"/> Edit reservation</button>
-                      <button class="btn-sm btn-sm-danger" :disabled="editSaving" type="button" @click="removeBooking(b)"><Trash2 :size="12"/> Remove</button>
-                    </td>
+
                   </tr>
                   <tr v-if="editType === 'booking' && editId === b.id" class="editor-row"><td colspan="9">
                     <section ref="editPanel" class="admin-form-panel inline-editor" aria-label="Edit reservation">
@@ -665,6 +666,12 @@ export default {
 
 </div></template>
 <style scoped>
+.admin-table.bookings-table{white-space:normal;min-width:900px}
+.bookings-table td{overflow-wrap:anywhere}
+.bookings-table .reservation-actions{position:sticky;left:0;z-index:1;background:white;min-width:130px;width:130px;box-shadow:2px 0 0 var(--border)}
+.bookings-table th.reservation-actions{background:var(--subtle)}
+.bookings-table .reservation-seats{max-width:160px;min-width:90px}
+.bookings-table .reservation-actions .table-actions{flex-direction:column;align-items:flex-start}
 .editor-row > td{padding:0!important;white-space:normal}
 .inline-editor{margin:0;padding:20px;border-radius:0}
 .edit-fields{border:0;margin:0;padding:0;min-width:0}
