@@ -764,6 +764,9 @@ button { border:1px solid var(--brand); background:var(--brand); color:white; bo
 }
 
 /* 3. Admin Dashboard Page */
+@media screen and (min-width:1001px) {
+  .admin-shell .admin-page { padding-inline:24px; }
+}
 .admin-page {
   position: fixed;
   inset: 0;
